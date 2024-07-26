@@ -20,13 +20,6 @@ CREATE TABLE IF NOT EXISTS public.entrenadores
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.entrenadores_pokemones
-(
-    entrenador_id integer NOT NULL,
-    pokemon_id integer NOT NULL,
-    CONSTRAINT "PK_entrenadores_pokemones" PRIMARY KEY (entrenador_id, pokemon_id),
-    CONSTRAINT "UQ_pokemon" UNIQUE (pokemon_id)
-);
 
 CREATE TABLE IF NOT EXISTS public.equipos
 (
@@ -49,20 +42,6 @@ CREATE TABLE IF NOT EXISTS public.batallas
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS public.entrenadores_pokemones
-    ADD CONSTRAINT "FK_entrenador" FOREIGN KEY (entrenador_id)
-    REFERENCES public.entrenadores (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.entrenadores_pokemones
-    ADD CONSTRAINT "FK_pokemon" FOREIGN KEY (pokemon_id)
-    REFERENCES public.pokemones (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE
-    NOT VALID;
 
 
 ALTER TABLE IF EXISTS public.equipos
