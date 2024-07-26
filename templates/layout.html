@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batalla Pokemones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+      
+</head>
+
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Pokemones</a>
+        <div>
+            <a class="navbar-brand" href="/entrenadores">Entrenadores</a>
+        </div>
+        <div>
+            <a class="navbar-brand" href="/asignar_pokemon">Equipos</a>
+        </div>
+        <div>
+            <a class="navbar-brand" href="/batallas">Batallas</a>
+        </div>
+        
+
+      </nav>
+    
+      <div class="container pt-4">
+        {% block body %}
+
+        {% endblock %}
+      </div>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+      
+      <script>
+        const btnDelete= document.querySelectorAll('.btn-delete');
+        if(btnDelete) {
+          const btnArray = Array.from(btnDelete);
+          btnArray.forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+              if(!confirm('Estas seguro de querer eliminar?')){
+                e.preventDefault();
+              }
+            });
+          })
+        }
+          
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]],
+                "iDisplayLength": 5,
+                "ordering": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
+                    "lengthMenu": "Entradas por página _MENU_",
+                    "search": "Buscar:",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                    }
+             });
+        });
+        </script>
+        
+    
+</body>
+</html>

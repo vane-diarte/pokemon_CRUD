@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1 class="mb-4">Batallas y Equipos Formados</h1>
+
+<!-- Mensajes Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert {{ messages[0][0] }}">
+            {{ messages[0][1] }}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<!-- Tabla de Batallas -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID Batalla</th>
+            <th>Fecha</th>
+            <th>Entrenador 1</th>
+            <th>Entrenador 2</th>
+            <th>Ganador</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for batalla in equipos %}
+        <tr>
+            <td>{{ batalla.batalla_id }}</td>
+            <td>{{ batalla.fecha }}</td>
+            <td>{{ batalla.entrenador1 }}</td>
+           
+            <td>{{ batalla.entrenador2 }}</td>
+            
+            <td>
+                {% if batalla.ganador %}
+                     {{ batalla.ganador }}
+                {% else %}
+                    No decidido
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock%}

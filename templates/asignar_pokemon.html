@@ -1,0 +1,142 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+
+<div class="container mt-5">
+    <!-- Título de la página -->
+    <div class="row mb-4">
+        <h3 class="col-12">Equipos</h3>
+    </div>
+
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div id="get_flashed_messages" class="mb-4">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Formulario para Equipos -->
+    <form method="POST" action="{{ url_for('asignar_pokemon_a_entrenador') }}">
+        <div class="row">
+
+
+            <!-- Tarjeta para el Equipo 1 -->
+            <div class="col-md-6">
+                <div class="card card-body mb-4">
+                    <h2>Equipo 1</h2>
+
+                    <div class="form-group">
+                        <label for="entrenador1">Entrenador 1:</label>
+                        <select name="entrenador1" id="entrenador1" class="form-control">
+                            <option value="" disabled selected>Elige un Entrenador</option>
+                            <!-- itera sobre la variable enviada por el backend donde toma el id del entrenador y muestra el nombre -->
+                            {% for entrenador in entrenadores %}
+                            <option value="{{ entrenador.id }}">{{ entrenador.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pokemon1_1">Pokémon 1:</label>
+                        <select name="pokemon1_1" id="pokemon1_1" class="form-control">
+                            <option value="" disabled selected>Elige un Pokémon</option>
+                            {% for pokemon in pokemones %}
+                            <option value="{{ pokemon.id }}">{{ pokemon.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pokemon1_2">Pokémon 2:</label>
+                        <select name="pokemon1_2" id="pokemon1_2" class="form-control">
+                            <option value="" disabled selected>Elige un Pokémon</option>
+                            {% for pokemon in pokemones %}
+                            <option value="{{ pokemon.id }}">{{ pokemon.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pokemon1_3">Pokémon 3:</label>
+                        <select name="pokemon1_3" id="pokemon1_3" class="form-control">
+                            <option value="" disabled selected>Elige un Pokémon</option>
+                            {% for pokemon in pokemones %}
+                            <option value="{{ pokemon.id }}">{{ pokemon.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Tarjeta para el Equipo 2 -->
+            <div class="col-md-6">
+                <div class="card card-body mb-4">
+                    <h2>Equipo 2</h2>
+                    <div class="form-group">
+                        <label for="entrenador2">Entrenador 2:</label>
+                        <select name="entrenador2" id="entrenador2" class="form-control">
+                            <option value="" disabled selected>Elige un Entrenador</option>
+                            {% for entrenador in entrenadores %}
+                            <option value="{{ entrenador.id }}">{{ entrenador.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pokemon2_1">Pokémon 1:</label>
+                        <select name="pokemon2_1" id="pokemon2_1" class="form-control">
+                            <option value="" disabled selected>Elige un Pokémon</option>
+                            {% for pokemon in pokemones %}
+                            <option value="{{ pokemon.id }}">{{ pokemon.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pokemon2_2">Pokémon 2:</label>
+                        <select name="pokemon2_2" id="pokemon2_2" class="form-control">
+                            <option value="" disabled selected>Elige un Pokémon</option>
+                            {% for pokemon in pokemones %}
+                            <option value="{{ pokemon.id }}">{{ pokemon.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pokemon2_3">Pokémon 3:</label>
+                        <select name="pokemon2_3" id="pokemon2_3" class="form-control">
+                            <option value="" disabled selected>Elige un Pokémon</option>
+                            {% for pokemon in pokemones %}
+                            <option value="{{ pokemon.id }}">{{ pokemon.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón para Iniciar Batalla -->
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Iniciar Batalla</button>
+            </div>
+        </div>
+    </form>
+
+    
+
+    
+
+{% endblock %}
