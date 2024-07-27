@@ -54,9 +54,9 @@ def agregar_entrenador():
 def editar_entrenador (id):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute('SELECT * FROM entrenadores WHERE id = %s', (id,))
-    entrenador = cur.fetchall() #recupera todos los resultados de la consulta
+    entrenador = cur.fetchone() #recupera todos los resultados de la consulta
     cur.close() #cierra el cursor
-    return render_template('editar.html', entrenador = entrenador[0])
+    return render_template('editar.html', entrenador = entrenador)
 
 
 @app.route('/actualizar/<id>', methods = ['POST'])
@@ -104,13 +104,15 @@ def asignar_pokemon_a_entrenador():
 
         # Validaciones, si el id de ambos entrenadores son iguales o si el id de los pokemones guardados en el conjunto se repiten y son menores a 6... error!!
         if entrenador1_id == entrenador2_id or len({pokemon1_1, pokemon1_2, pokemon1_3, pokemon2_1, pokemon2_2, pokemon2_3}) != 6:
-            flash('Debes seleccionar diferentes entrenadores y pokémones únicos para cada equipo.', 'error')
+            flash('Debes seleccionar diferentes entrenadores y pokémones únicos para cada equipo.', 'danger')
         else:
             # Inserción en la tabla equipos para el primer equipo
+            # RETURNING id solicita que despues de ingresar un nuevo registro la base de datos
+            # devuelva el valor de la columna id del nuevo registro 
             cur.execute("""
                 INSERT INTO equipos (pokemon1_id, pokemon2_id, pokemon3_id, entrenador_id, batalla_id)
                 VALUES (%s, %s, %s, %s, NULL)
-                RETURNING id
+                RETURNING id 
             """, (pokemon1_1, pokemon1_2, pokemon1_3, entrenador1_id))
             equipo1_id = cur.fetchone()[0]
 
@@ -164,11 +166,12 @@ def mostrar_batallas():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) # cursor para ejecutar comandos en la base de datos
 
     # Obtener todas las batallas
+
     cur.execute("""
-        SELECT b.id, b.fecha, e1.entrenador_id AS entrenador1_id, e2.entrenador_id AS entrenador2_id, b.ganador
-        FROM batallas b
-        JOIN equipos e1 ON b.equipo1_id = e1.id
-        JOIN equipos e2 ON b.equipo2_id = e2.id
+        SELECT batallas.id, batallas.fecha, equipo1.entrenador_id AS entrenador1_id, equipo2.entrenador_id AS entrenador2_id, batallas.ganador 
+        FROM batallas
+        JOIN equipos equipo1 ON batallas.equipo1_id = equipo1.id
+        JOIN equipos equipo2 ON batallas.equipo2_id = equipo2.id
     """)
     batallas = cur.fetchall()
 
@@ -185,10 +188,10 @@ def mostrar_batallas():
 
         # Obtener nombre del ganador
         cur.execute("""
-                SELECT e.entrenador_id, en.nombre
-                FROM equipos e
-                JOIN entrenadores en ON e.entrenador_id = en.id
-                WHERE e.id = %s
+                SELECT equipos.entrenador_id, entrenadores.nombre
+                FROM equipos
+                JOIN entrenadores ON equipos.entrenador_id = entrenadores.id
+                WHERE equipos.id = %s
             """, (batalla['ganador'],))
         ganador_info = cur.fetchone()
         ganador_nombre = ganador_info['nombre']
